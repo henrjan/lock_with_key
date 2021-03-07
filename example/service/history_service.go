@@ -1,7 +1,6 @@
 package service
 
 import (
-	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -13,7 +12,6 @@ import (
 var (
 	transferFee = 500
 	minTransfer = 10000
-	lock        sync.RWMutex
 )
 
 type historyService struct {
@@ -45,7 +43,6 @@ func (service *historyService) GetAccountTxHistories(from model.Account) []model
 }
 
 func (service *historyService) TransferBalance(from model.Account, to model.Account, nominal uint) {
-	// lock.Lock()
 	referenceID := uuid.New()
 
 	transactionSubtract := service.SubtractBalance(from, to, nominal)
@@ -58,7 +55,6 @@ func (service *historyService) TransferBalance(from model.Account, to model.Acco
 	transactionFee.ReferenceID = referenceID
 
 	service.ProcessTransaction()
-	// lock.Unlock()
 }
 
 func (service *historyService) ProcessTransaction() {
