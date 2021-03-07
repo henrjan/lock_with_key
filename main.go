@@ -7,10 +7,16 @@ import (
 )
 
 var (
-	longString = map[string]string{
-		"emerald":  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ac orci phasellus egestas tellus rutrum. In tellus integer feugiat scelerisque. Turpis tincidunt id aliquet risus. Elit pellentesque habitant morbi tristique senectus et netus et malesuada. Rhoncus dolor purus non enim praesent elementum. Nunc sed id semper risus in. Eget felis eget nunc lobortis mattis. Semper feugiat nibh sed pulvinar proin. Nunc eget lorem dolor sed. Amet mauris commodo quis imperdiet massa tincidunt. Magna fermentum iaculis eu non diam. Donec ac odio tempor orci dapibus ultrices in iaculis nunc. Tincidunt ornare massa eget egestas purus viverra accumsan in nisl. Quis ipsum suspendisse ultrices gravida dictum fusce. Id nibh tortor id aliquet lectus. Tellus id interdum velit laoreet id. Sit amet risus nullam eget felis eget nunc lobortis. Posuere morbi leo urna molestie at elementum eu. Diam donec adipiscing tristique risus nec feugiat in. Sit amet consectetur adipiscing elit pellentesque habitant. Volutpat odio facilisis mauris sit amet. Sagittis eu volutpat odio facilisis mauris sit amet. Pellentesque sit amet porttitor eget dolor morbi non. Id velit ut tortor pretium viverra suspendisse. Dignissim suspendisse in est ante in nibh mauris. Leo in vitae turpis massa sed elementum. Condimentum lacinia quis vel eros donec ac. Mattis molestie a iaculis at. Etiam sit amet nisl purus in mollis. Ultrices in iaculis nunc sed.",
-		"ruby":     "Nibh mauris cursus mattis molestie a iaculis at erat. Proin fermentum leo vel orci porta non pulvinar. Mattis nunc sed blandit libero volutpat sed cras ornare arcu. Viverra mauris in aliquam sem fringilla ut morbi. Sit amet nulla facilisi morbi tempus iaculis urna. Tincidunt eget nullam non nisi. Duis ut diam quam nulla porttitor. Massa enim nec dui nunc mattis. Nibh sed pulvinar proin gravida hendrerit. Faucibus scelerisque eleifend donec pretium. Mauris nunc congue nisi vitae suscipit. Quis vel eros donec ac odio. Hendrerit gravida rutrum quisque non tellus orci ac auctor. Ultricies lacus sed turpis tincidunt id aliquet risus. Adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus. Dictumst quisque sagittis purus sit amet volutpat. Amet dictum sit amet justo donec. Lacus vestibulum sed arcu non odio euismod lacinia. Morbi enim nunc faucibus a pellentesque sit amet porttitor eget. Gravida cum sociis natoque penatibus et magnis dis. Nunc eget lorem dolor sed. Diam quis enim lobortis scelerisque fermentum dui faucibus. A diam maecenas sed enim. Leo vel fringilla est ullamcorper eget nulla facilisi. Quam adipiscing vitae proin sagittis nisl. Orci porta non pulvinar neque. Sed euismod nisi porta lorem. Aliquam id diam maecenas ultricies mi eget mauris pharetra. Dolor sit amet consectetur adipiscing elit duis tristique sollicitudin. Nulla facilisi morbi tempus iaculis urna id volutpat. Elementum nisi quis eleifend quam adipiscing vitae. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Non diam phasellus vestibulum lorem sed. Mauris ultrices eros in cursus turpis massa tincidunt dui ut. Nisi quis eleifend quam adipiscing vitae proin sagittis nisl. At in tellus integer feugiat. Tortor id aliquet lectus proin. Sed risus pretium quam vulputate dignissim. Cursus eget nunc scelerisque viverra mauris in aliquam.",
-		"sapphire": "Arcu non sodales neque sodales ut. Quis lectus nulla at volutpat diam ut venenatis. Facilisi morbi tempus iaculis urna id volutpat lacus laoreet. Risus feugiat in ante metus. Lacus sed viverra tellus in hac habitasse. Sapien pellentesque habitant morbi tristique senectus. Ultrices tincidunt arcu non sodales neque sodales ut etiam sit. Elementum curabitur vitae nunc sed velit dignissim sodales ut. Adipiscing elit pellentesque habitant morbi. Mollis aliquam ut porttitor leo a diam. A arcu cursus vitae congue. Ipsum faucibus vitae aliquet nec ullamcorper sit amet risus. Tincidunt ornare massa eget egestas purus viverra accumsan in. Consectetur adipiscing elit duis tristique sollicitudin nibh sit amet commodo. Id velit ut tortor pretium viverra suspendisse. Ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Cum sociis natoque penatibus et magnis. Ultricies mi eget mauris pharetra et ultrices neque ornare aenean. Eros donec ac odio tempor orci. Sapien eget mi proin sed libero enim sed faucibus turpis. Sollicitudin ac orci phasellus egestas tellus rutrum. Porttitor rhoncus dolor purus non enim praesent elementum facilisis. A scelerisque purus semper eget duis at. Tellus in hac habitasse platea dictumst vestibulum rhoncus est. Faucibus vitae aliquet nec ullamcorper sit amet. Mauris a diam maecenas sed enim ut sem. Quis hendrerit dolor magna eget est. Sit amet est placerat in egestas erat imperdiet. Condimentum lacinia quis vel eros donec. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit. Mattis molestie a iaculis at. Ac auctor augue mauris augue neque gravida in fermentum.",
+	longString = []struct {
+		key   string
+		value string
+	}{
+		{"emerald", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc faucibus a pellentesque sit. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien. In dictum non consectetur a erat nam at. Pellentesque habitant morbi tristique senectus et. Tellus integer feugiat scelerisque varius morbi enim nunc faucibus a. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim. Turpis massa sed elementum tempus egestas sed sed risus. Fringilla urna porttitor rhoncus dolor purus non enim praesent. Aliquet bibendum enim facilisis gravida neque convallis a. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus mauris. At imperdiet dui accumsan sit amet nulla facilisi. Justo nec ultrices dui sapien eget mi proin. Integer quis auctor elit sed vulputate mi sit amet mauris. Consequat ac felis donec et odio pellentesque diam. Eget sit amet tellus cras adipiscing enim. Quis commodo odio aenean sed adipiscing diam donec. Sit amet luctus venenatis lectus magna fringilla."},
+		{"emerald", "Montes nascetur ridiculus mus mauris vitae. Nisi est sit amet facilisis. Amet est placerat in egestas erat imperdiet sed euismod nisi. Sagittis vitae et leo duis ut diam. Hac habitasse platea dictumst vestibulum rhoncus est. A arcu cursus vitae congue. Tortor pretium viverra suspendisse potenti. Mauris pharetra et ultrices neque ornare aenean euismod. Blandit turpis cursus in hac habitasse platea. Sed nisi lacus sed viverra tellus in hac habitasse. Euismod elementum nisi quis eleifend quam adipiscing vitae. At ultrices mi tempus imperdiet nulla malesuada. Sodales neque sodales ut etiam sit amet nisl purus in. Velit sed ullamcorper morbi tincidunt. Egestas pretium aenean pharetra magna ac. Vulputate ut pharetra sit amet aliquam id diam maecenas ultricies. Posuere urna nec tincidunt praesent. Neque egestas congue quisque egestas diam in arcu cursus."},
+		{"ruby", "Ultrices neque ornare aenean euismod. Malesuada fames ac turpis egestas sed tempus urna et. Morbi enim nunc faucibus a pellentesque sit amet porttitor eget. In cursus turpis massa tincidunt. Eget dolor morbi non arcu risus quis. Venenatis tellus in metus vulputate eu. Imperdiet massa tincidunt nunc pulvinar sapien et ligula ullamcorper. Egestas erat imperdiet sed euismod nisi porta lorem. Aliquet nibh praesent tristique magna sit amet purus gravida. Tincidunt dui ut ornare lectus sit amet. Diam maecenas sed enim ut sem viverra aliquet eget. Ullamcorper malesuada proin libero nunc consequat. In nisl nisi scelerisque eu ultrices. Amet porttitor eget dolor morbi non arcu risus quis. Quis blandit turpis cursus in."},
+		{"ruby", "Blandit aliquam etiam erat velit scelerisque. At urna condimentum mattis pellentesque. Libero enim sed faucibus turpis in eu. Amet consectetur adipiscing elit pellentesque habitant morbi. Tellus elementum sagittis vitae et leo duis ut diam. Neque convallis a cras semper auctor neque. Vel fringilla est ullamcorper eget nulla facilisi. Non odio euismod lacinia at quis risus sed vulputate odio. Elementum nisi quis eleifend quam adipiscing. Et tortor at risus viverra adipiscing at in tellus. Sed augue lacus viverra vitae. A diam maecenas sed enim ut sem viverra aliquet. Etiam tempor orci eu lobortis elementum nibh tellus molestie."},
+		{"sapphire", "Nunc sed velit dignissim sodales ut eu sem integer vitae. Id leo in vitae turpis massa. Gravida dictum fusce ut placerat orci nulla. A condimentum vitae sapien pellentesque. A iaculis at erat pellentesque adipiscing commodo elit. Eu tincidunt tortor aliquam nulla facilisi cras fermentum. Tristique sollicitudin nibh sit amet. Volutpat est velit egestas dui id ornare arcu odio ut. Quisque egestas diam in arcu cursus euismod quis viverra. Vulputate enim nulla aliquet porttitor lacus. Convallis tellus id interdum velit. Sed ullamcorper morbi tincidunt ornare massa eget egestas. Vitae proin sagittis nisl rhoncus mattis rhoncus urna neque. Morbi enim nunc faucibus a pellentesque sit amet porttitor. Nec ultrices dui sapien eget mi. Pellentesque eu tincidunt tortor aliquam nulla."},
+		{"sapphire", "Ultricies lacus sed turpis tincidunt id. Placerat duis ultricies lacus sed. Egestas dui id ornare arcu odio. Odio eu feugiat pretium nibh ipsum consequat nisl. Laoreet sit amet cursus sit. Volutpat sed cras ornare arcu. Eget dolor morbi non arcu risus quis varius quam. Rhoncus aenean vel elit scelerisque mauris. Ut venenatis tellus in metus. Sed euismod nisi porta lorem mollis aliquam ut porttitor. Montes nascetur ridiculus mus mauris vitae ultricies. Ac tortor dignissim convallis aenean et tortor. Sagittis purus sit amet volutpat consequat mauris. Sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus. In egestas erat imperdiet sed euismod nisi. Porttitor eget dolor morbi non arcu risus quis varius quam. Purus viverra accumsan in nisl nisi scelerisque eu. Iaculis at erat pellentesque adipiscing commodo."},
 	}
 )
 
@@ -18,7 +24,7 @@ func main() {
 	var wg sync.WaitGroup
 
 	time1 := time.Now()
-	for k, v := range longString {
+	for _, v := range longString {
 		wg.Add(1)
 		go func(key string, data string) {
 			defer wg.Done()
@@ -31,14 +37,14 @@ func main() {
 					// fmt.Println(key, string(dataString))
 				},
 			)
-		}(k, v)
+		}(v.key, v.value)
 	}
 	wg.Wait()
 	duration := time.Since(time1)
 	fmt.Printf("run with mutex lock time elapsed : %d\n", duration.Nanoseconds())
 
 	time2 := time.Now()
-	for k, v := range longString {
+	for _, v := range longString {
 		wg.Add(1)
 		go func(key string, data string) {
 			defer wg.Done()
@@ -52,7 +58,7 @@ func main() {
 					// fmt.Println(key, string(dataString))
 				},
 			)
-		}(k, v)
+		}(v.key, v.value)
 	}
 	wg.Wait()
 	duration = time.Since(time2)
