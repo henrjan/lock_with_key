@@ -3,15 +3,17 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"sync"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"github.com/henrjan/lock_with_key/example/general"
 	"github.com/henrjan/lock_with_key/example/model"
 	"github.com/henrjan/lock_with_key/example/repository"
 	"github.com/henrjan/lock_with_key/example/service"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 const (
@@ -26,10 +28,6 @@ var (
 	historyRepo    = repository.NewHistoryRepository(db)
 	accountService = service.NewAccountService(accountRepo)
 	historyService = service.NewHistoryService(historyRepo, multiLock)
-
-	counter = 0
-
-	wg sync.WaitGroup
 )
 
 func main() {
@@ -80,12 +78,14 @@ func main() {
 			fmt.Printf("errors : %v", err)
 			return c.JSON(result)
 		}
-		fmt.Printf("body request : %v\n", string(c.Body()))
 
 		accFrom := accountService.GetAccountByNumber(body.AccountFrom)
 		accTo := accountService.GetAccountByNumber(body.AccountTo)
 
+		timeNow := time.Now()
 		historyService.TransferBalance(accFrom, accTo, body.Nominal)
+		duration := time.Since(timeNow)
+		fmt.Printf("duration : %d\n", duration)
 
 		result := fiber.Map{
 			"result": "success",
@@ -99,7 +99,9 @@ func main() {
 }
 
 func initDB() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open(DB_NAME), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(DB_NAME), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -111,23 +113,6 @@ func insertDefaultBalanceToAllAccount() {
 	accountList := accountService.GetAllAccount()
 
 	for _, v := range accountList {
-		historyService.AddBalance(model.Account{}, v, uint(balance))
-	}
-	historyService.ProcessTransaction()
-}
-
-func transferBalance(wg *sync.WaitGroup) {
-	accountList := accountService.GetAllAccount()
-
-	n := len(accountList) - 1
-	for k, v := range accountList {
-		if k == n {
-			break
-		}
-		wg.Add(1)
-		go func(data model.Account) {
-			defer wg.Done()
-			historyService.TransferBalance(data, accountList[n], 10000)
-		}(v)
+		historyService.AddBalance(model.Account{}, v, uint(balance), uuid.UUID{})
 	}
 }

@@ -1,12 +1,14 @@
 package general
 
-import "sync"
+import (
+	"sync"
+)
 
 type MultiLock struct {
-	inUse sync.Map
-	pool  *sync.Pool
-	iLock sync.Map   // used for internal lock
-	iPool *sync.Pool // used for internal lock
+	inUse   sync.Map
+	pool    *sync.Pool
+	acquire chan refKey
+	release chan refKey
 }
 
 type keyLock struct {
@@ -14,79 +16,89 @@ type keyLock struct {
 	lock    *sync.RWMutex
 }
 
+type refKey struct {
+	key    interface{}
+	lockCh chan *sync.RWMutex
+}
+
 func NewMultipleLock() *MultiLock {
-	return &MultiLock{
+	mLock := &MultiLock{
 		pool: &sync.Pool{
 			New: func() interface{} {
 				return &sync.RWMutex{}
 			},
 		},
-		iPool: &sync.Pool{
-			New: func() interface{} {
-				return &sync.Mutex{}
-			},
-		},
+		acquire: make(chan refKey),
+		release: make(chan refKey),
 	}
+	go mLock.lockUnlock()
+	return mLock
 }
 
 func (mLock *MultiLock) Lock(key interface{}) {
-	kl := mLock.getLock(key)
-	kl.lock.Lock()
+	chGet := make(chan *sync.RWMutex)
+	mLock.acquire <- refKey{key, chGet}
+	lock := <-chGet
+	lock.Lock()
 }
 
 func (mLock *MultiLock) Unlock(key interface{}) {
-	kl := mLock.releaseLock(key)
-	kl.lock.Unlock()
+	chGet := make(chan *sync.RWMutex)
+	mLock.release <- refKey{key, chGet}
+	lock := <-chGet
+	lock.Unlock()
 }
 
 func (mLock *MultiLock) RLock(key interface{}) {
-	kl := mLock.getLock(key)
-	kl.lock.RLock()
+	chGet := make(chan *sync.RWMutex)
+	mLock.acquire <- refKey{key, chGet}
+	lock := <-chGet
+	lock.RLock()
 }
 
 func (mLock *MultiLock) RUnlock(key interface{}) {
-	kl := mLock.releaseLock(key)
-	kl.lock.RUnlock()
+	chGet := make(chan *sync.RWMutex)
+	mLock.release <- refKey{key, chGet}
+	lock := <-chGet
+	lock.RUnlock()
+}
+
+func (mLock *MultiLock) lockUnlock() {
+	for {
+		select {
+		case refKey := <-mLock.acquire:
+			mLock.acquireLock(refKey.key, refKey.lockCh)
+		case refKey := <-mLock.release:
+			mLock.releaseLock(refKey.key, refKey.lockCh)
+		default:
+			// fmt.Println("Waiting...")
+			// time.Sleep(time.Millisecond)
+		}
+	}
 }
 
 func (mLock *MultiLock) getLock(key interface{}) *keyLock {
-	iLock := mLock.useILock(key)
-	defer mLock.releaseILock(key, iLock)
-
 	locker, _ := mLock.inUse.LoadOrStore(
 		key,
 		&keyLock{
 			lock: mLock.pool.Get().(*sync.RWMutex),
 		},
 	)
-	kl := locker.(*keyLock)
-	kl.counter++
-	return kl
+	return locker.(*keyLock)
 }
 
-func (mLock *MultiLock) releaseLock(key interface{}) *keyLock {
+func (mLock *MultiLock) acquireLock(key interface{}, sendCh chan<- *sync.RWMutex) {
 	kl := mLock.getLock(key)
+	kl.counter++
+	sendCh <- kl.lock
+}
 
-	kl.counter -= 2
+func (mLock *MultiLock) releaseLock(key interface{}, sendCh chan<- *sync.RWMutex) {
+	kl := mLock.getLock(key)
+	kl.counter--
 	if kl.counter <= 0 {
 		mLock.pool.Put(kl.lock)
 		mLock.inUse.Delete(key)
 	}
-	return kl
-}
-
-func (mLock *MultiLock) useILock(key interface{}) *sync.Mutex {
-	locker, _ := mLock.iLock.LoadOrStore(
-		key,
-		mLock.iPool.Get().(*sync.Mutex),
-	)
-	lock := locker.(*sync.Mutex)
-	lock.Lock()
-	return lock
-}
-
-func (mLock *MultiLock) releaseILock(key interface{}, lock *sync.Mutex) {
-	lock.Unlock()
-	mLock.iPool.Put(lock)
-	mLock.iLock.Delete(key)
+	sendCh <- kl.lock
 }

@@ -1,7 +1,5 @@
 package main
 
-import "time"
-
 var mLock = NewMultipleLock()
 
 func runWithMultiLock(key interface{}, block func()) {
@@ -9,6 +7,4 @@ func runWithMultiLock(key interface{}, block func()) {
 	defer mLock.Unlock(key)
 
 	block()
-
-	time.Sleep(100 * time.Millisecond)
 }

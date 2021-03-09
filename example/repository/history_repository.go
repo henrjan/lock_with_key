@@ -15,8 +15,11 @@ func NewHistoryRepository(dbClient *gorm.DB) *HistoryRepository {
 	return &HistoryRepository{dbClient}
 }
 
-func (repo *HistoryRepository) InsertMany(model []*model.HistoryLog) {
-	repo.db.Create(&model)
+func (repo *HistoryRepository) InsertMany(data []model.HistoryLog) {
+	repo.db.Create(&data)
+}
+func (repo *HistoryRepository) Insert(data model.HistoryLog) {
+	repo.db.Create(&data)
 }
 
 func (repo *HistoryRepository) GetUserLatestTransaction(ownerID uint) model.HistoryLog {
