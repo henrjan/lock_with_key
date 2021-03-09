@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -82,10 +81,7 @@ func main() {
 		accFrom := accountService.GetAccountByNumber(body.AccountFrom)
 		accTo := accountService.GetAccountByNumber(body.AccountTo)
 
-		timeNow := time.Now()
 		historyService.TransferBalance(accFrom, accTo, body.Nominal)
-		duration := time.Since(timeNow)
-		fmt.Printf("duration : %d\n", duration)
 
 		result := fiber.Map{
 			"result": "success",
