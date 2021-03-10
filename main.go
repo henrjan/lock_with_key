@@ -13,7 +13,7 @@ var (
 		"ruby",
 		"sapphire",
 	}
-	count = 40
+	count = 30
 )
 
 func main() {
@@ -55,7 +55,7 @@ func operationWithMutex() {
 	}
 	wg.Wait()
 	duration := time.Since(time1)
-	fmt.Printf("run with mutex lock time elapsed : %d\n", duration.Milliseconds())
+	fmt.Printf("run with mutex lock time elapsed : %d\n", duration.Nanoseconds())
 }
 
 func operationWithMultiLock() {
@@ -77,7 +77,7 @@ func operationWithMultiLock() {
 	}
 	wg.Wait()
 	duration2 := time.Since(time2)
-	fmt.Printf("run with multi lock time elapsed : %d\n", duration2.Milliseconds())
+	fmt.Printf("run with multi lock time elapsed : %d\n", duration2.Nanoseconds())
 }
 
 func fibonnaci(n uint64) uint64 {
@@ -85,8 +85,4 @@ func fibonnaci(n uint64) uint64 {
 		return n
 	}
 	return fibonnaci(n-1) + fibonnaci(n-2)
-}
-
-func double(n uint64) uint64 {
-	return n * 2
 }
