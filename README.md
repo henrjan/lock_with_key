@@ -6,4 +6,4 @@ When the lock is released by executing goroutine, other goroutine will be racing
 
 While synchronization is achieved using simple Locking and Unlocking, it is inefficient for heavy operations that need advanced locking mechanism and could cause unnecessary bottleneck. 
 
-Using multiple locks based on key, we can provide multiple locks to multiple goroutines with different keys. By doing so, multiple goroutines can execute codes simultaneously while also achieved synchronization.
+Using multiple locks based on key, we can provide multiple locks to multiple goroutines with different keys. By doing so, multiple operations with different keys can execute codes simultaneously while also achieved synchronization for multiple operations using same key.

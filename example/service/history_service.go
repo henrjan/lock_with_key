@@ -12,7 +12,6 @@ import (
 var (
 	transferFee = 500
 	minTransfer = 10000
-	// lock        sync.RWMutex
 )
 
 type historyService struct {
@@ -43,8 +42,6 @@ func (service *historyService) GetAccountTxHistories(from model.Account) []model
 }
 
 func (service *historyService) TransferBalance(from model.Account, to model.Account, nominal uint) {
-	// lock.Lock()
-	// defer lock.Unlock()
 	referenceID := uuid.New()
 
 	service.SubtractBalance(from, to, nominal, referenceID)
