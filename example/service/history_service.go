@@ -11,20 +11,17 @@ import (
 
 var (
 	transferFee = 500
-	minTransfer = 10000
 )
 
 type historyService struct {
-	repo            *repository.HistoryRepository
-	mLock           *general.MultiLock
-	dataTransaction map[string][]model.HistoryLog
+	repo  *repository.HistoryRepository
+	mLock *general.MultiLock
 }
 
 func NewHistoryService(repo *repository.HistoryRepository, mLock *general.MultiLock) *historyService {
 	return &historyService{
-		repo:            repo,
-		mLock:           mLock,
-		dataTransaction: make(map[string][]model.HistoryLog),
+		repo:  repo,
+		mLock: mLock,
 	}
 }
 
