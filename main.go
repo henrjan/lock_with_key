@@ -19,25 +19,21 @@ var (
 func main() {
 	var wg sync.WaitGroup
 
-	/*
-	 * running heavy operations using Mutex lock and multi lock
-	 */
-
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		operationWithMutex()
+		operationWithMutex(count)
 	}()
 
 	go func() {
 		defer wg.Done()
-		operationWithMultiLock()
+		operationWithMultiLock(count)
 	}()
 
 	wg.Wait()
 }
 
-func operationWithMutex() {
+func operationWithMutex(count int) {
 	var wg sync.WaitGroup
 	time1 := time.Now()
 	for _, v := range key {
@@ -47,7 +43,7 @@ func operationWithMutex() {
 			runWithMutexLock(
 				func() {
 					for i := 0; i < count; i++ {
-						fibonnaci(uint64(i))
+						fibonnaci(count)
 					}
 				},
 			)
@@ -58,7 +54,7 @@ func operationWithMutex() {
 	fmt.Printf("run with mutex lock time elapsed : %d\n", duration.Nanoseconds())
 }
 
-func operationWithMultiLock() {
+func operationWithMultiLock(count int) {
 	var wg sync.WaitGroup
 	time2 := time.Now()
 	for _, v := range key {
@@ -69,7 +65,7 @@ func operationWithMultiLock() {
 				key,
 				func() {
 					for i := 0; i < count; i++ {
-						fibonnaci(uint64(i))
+						fibonnaci(count)
 					}
 				},
 			)
@@ -80,9 +76,9 @@ func operationWithMultiLock() {
 	fmt.Printf("run with multi lock time elapsed : %d\n", duration2.Nanoseconds())
 }
 
-func fibonnaci(n uint64) uint64 {
+func fibonnaci(n int) uint64 {
 	if n <= 1 || n > math.MaxInt64 {
-		return n
+		return uint64(n)
 	}
 	return fibonnaci(n-1) + fibonnaci(n-2)
 }
